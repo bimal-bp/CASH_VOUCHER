@@ -1,1 +1,518 @@
-<h4> Cash Voucher</h4>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cash Voucher System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        header {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .form-section, .voucher-section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            color: #3498db;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        
+        .btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+        }
+        
+        .btn-secondary {
+            background: #95a5a6;
+        }
+        
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+        
+        .btn-danger {
+            background: #e74c3c;
+        }
+        
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .voucher {
+            border: 1px solid #ddd;
+            padding: 30px;
+            background: white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            min-height: 500px;
+        }
+        
+        .voucher-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .voucher-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .voucher-date {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .voucher-subject {
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+        
+        .voucher-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+        
+        .voucher-table th, .voucher-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .voucher-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .voucher-amount {
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+        
+        .voucher-footer {
+            margin-top: 40px;
+            text-align: right;
+        }
+        
+        .signature-line {
+            border-top: 1px solid #333;
+            width: 200px;
+            margin-left: auto;
+            margin-top: 40px;
+            padding-top: 5px;
+            text-align: center;
+        }
+        
+        .employee-entry {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        
+        .employee-entry input {
+            flex: 1;
+        }
+        
+        .remove-employee {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .employee-entry {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Cash Voucher System</h1>
+            <p class="subtitle">Create and manage cash vouchers for your business</p>
+        </header>
+        
+        <section class="form-section">
+            <h2>Create New Voucher</h2>
+            
+            <div class="form-group">
+                <label for="voucher-date">Date</label>
+                <input type="date" id="voucher-date" value="2025-10-18">
+            </div>
+            
+            <div class="form-group">
+                <label for="voucher-subject">Subject</label>
+                <textarea id="voucher-subject" rows="3">Being amount payable towards Food charges for helper to collect sweet boxes from Sweet India for Diwali distribution Purpose on 18-10-2025.</textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Employee Details</label>
+                <div id="employee-entries">
+                    <div class="employee-entry">
+                        <input type="text" class="employee-name" placeholder="Employee Name" value="XYZ">
+                        <input type="text" class="employee-designation" placeholder="Designation" value="Helper">
+                        <input type="number" class="employee-amount" placeholder="Amount (₹)" value="120">
+                        <button class="remove-employee">×</button>
+                    </div>
+                </div>
+                <button id="add-employee" class="btn btn-secondary" style="margin-top: 10px;">Add Another Employee</button>
+            </div>
+            
+            <div class="btn-group">
+                <button id="generate-btn" class="btn">Generate Voucher</button>
+                <button id="reset-btn" class="btn btn-secondary">Reset Form</button>
+            </div>
+        </section>
+        
+        <section class="voucher-section">
+            <h2>Cash Voucher</h2>
+            
+            <div class="voucher" id="voucher-preview">
+                <div class="voucher-header">
+                    <div class="voucher-title">CASH VOUCHER</div>
+                    <div class="voucher-date">Date: <span id="preview-date">18-10-2025</span></div>
+                </div>
+                
+                <div class="voucher-subject">
+                    Subject: <span id="preview-subject">Being amount payable towards Food charges for helper to collect sweet boxes from Sweet India for Diwali distribution Purpose on 18-10-2025.</span>
+                </div>
+                
+                <table class="voucher-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Designation</th>
+                            <th>Food Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="preview-employees">
+                        <tr>
+                            <td>XYZ</td>
+                            <td>Helper</td>
+                            <td>120/-</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><strong>Total</strong></td>
+                            <td id="preview-total"><strong>120/-</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="voucher-amount">
+                    Amount in words: <span id="preview-words">One Hundred Twenty Rupees Only</span>
+                </div>
+                
+                <div class="voucher-footer">
+                    <div class="signature-line">Claimant</div>
+                </div>
+            </div>
+            
+            <div class="btn-group">
+                <button id="print-btn" class="btn">Print Voucher</button>
+                <button id="download-btn" class="btn btn-secondary">Download as PDF</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Generate voucher button
+            document.getElementById('generate-btn').addEventListener('click', generateVoucher);
+            
+            // Reset form button
+            document.getElementById('reset-btn').addEventListener('click', resetForm);
+            
+            // Print voucher button
+            document.getElementById('print-btn').addEventListener('click', printVoucher);
+            
+            // Download as PDF button
+            document.getElementById('download-btn').addEventListener('click', downloadPDF);
+            
+            // Add employee button
+            document.getElementById('add-employee').addEventListener('click', addEmployee);
+            
+            // Function to add employee entry
+            function addEmployee() {
+                const employeeEntries = document.getElementById('employee-entries');
+                const newEntry = document.createElement('div');
+                newEntry.className = 'employee-entry';
+                newEntry.innerHTML = `
+                    <input type="text" class="employee-name" placeholder="Employee Name" value="XYZ">
+                    <input type="text" class="employee-designation" placeholder="Designation" value="Helper">
+                    <input type="number" class="employee-amount" placeholder="Amount (₹)" value="120">
+                    <button class="remove-employee">×</button>
+                `;
+                employeeEntries.appendChild(newEntry);
+                
+                // Add event listener to remove button
+                newEntry.querySelector('.remove-employee').addEventListener('click', function() {
+                    if (document.querySelectorAll('.employee-entry').length > 1) {
+                        newEntry.remove();
+                    } else {
+                        alert('At least one employee is required');
+                    }
+                });
+            }
+            
+            // Function to convert number to words
+            function numberToWords(num) {
+                const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 
+                             'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 
+                             'Eighteen', 'Nineteen'];
+                const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+                
+                if (num === 0) return 'Zero';
+                
+                let words = '';
+                
+                if (num >= 10000000) {
+                    words += numberToWords(Math.floor(num / 10000000)) + ' Crore ';
+                    num %= 10000000;
+                }
+                
+                if (num >= 100000) {
+                    words += numberToWords(Math.floor(num / 100000)) + ' Lakh ';
+                    num %= 100000;
+                }
+                
+                if (num >= 1000) {
+                    words += numberToWords(Math.floor(num / 1000)) + ' Thousand ';
+                    num %= 1000;
+                }
+                
+                if (num >= 100) {
+                    words += ones[Math.floor(num / 100)] + ' Hundred ';
+                    num %= 100;
+                }
+                
+                if (num >= 20) {
+                    words += tens[Math.floor(num / 10)] + ' ';
+                    num %= 10;
+                }
+                
+                if (num > 0) {
+                    words += ones[num] + ' ';
+                }
+                
+                return words.trim() + ' Rupees Only';
+            }
+            
+            // Function to generate voucher
+            function generateVoucher() {
+                // Get form values
+                const date = document.getElementById('voucher-date').value;
+                const subject = document.getElementById('voucher-subject').value;
+                
+                // Get employee data
+                const employeeEntries = document.querySelectorAll('.employee-entry');
+                const employees = [];
+                let totalAmount = 0;
+                
+                employeeEntries.forEach(entry => {
+                    const name = entry.querySelector('.employee-name').value || 'XYZ';
+                    const designation = entry.querySelector('.employee-designation').value || 'Helper';
+                    const amount = parseInt(entry.querySelector('.employee-amount').value) || 0;
+                    
+                    employees.push({ name, designation, amount });
+                    totalAmount += amount;
+                });
+                
+                // Format date
+                const formattedDate = formatDate(date);
+                
+                // Convert amount to words
+                const amountInWords = numberToWords(totalAmount);
+                
+                // Update preview
+                document.getElementById('preview-date').textContent = formattedDate;
+                document.getElementById('preview-subject').textContent = subject;
+                
+                // Update employee table
+                const previewEmployees = document.getElementById('preview-employees');
+                previewEmployees.innerHTML = '';
+                
+                employees.forEach(employee => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${employee.name}</td>
+                        <td>${employee.designation}</td>
+                        <td>${employee.amount}/-</td>
+                    `;
+                    previewEmployees.appendChild(row);
+                });
+                
+                // Add total row
+                const totalRow = document.createElement('tr');
+                totalRow.innerHTML = `
+                    <td></td>
+                    <td><strong>Total</strong></td>
+                    <td id="preview-total"><strong>${totalAmount}/-</strong></td>
+                `;
+                previewEmployees.appendChild(totalRow);
+                
+                document.getElementById('preview-words').textContent = amountInWords;
+            }
+            
+            // Function to format date
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}-${month}-${year}`;
+            }
+            
+            // Function to reset form
+            function resetForm() {
+                document.getElementById('voucher-date').value = '2025-10-18';
+                document.getElementById('voucher-subject').value = 'Being amount payable towards Food charges for helper to collect sweet boxes from Sweet India for Diwali distribution Purpose on 18-10-2025.';
+                
+                // Reset employee entries to one
+                const employeeEntries = document.getElementById('employee-entries');
+                employeeEntries.innerHTML = `
+                    <div class="employee-entry">
+                        <input type="text" class="employee-name" placeholder="Employee Name" value="XYZ">
+                        <input type="text" class="employee-designation" placeholder="Designation" value="Helper">
+                        <input type="number" class="employee-amount" placeholder="Amount (₹)" value="120">
+                        <button class="remove-employee">×</button>
+                    </div>
+                `;
+                
+                // Add event listener to remove button
+                document.querySelector('.remove-employee').addEventListener('click', function() {
+                    alert('At least one employee is required');
+                });
+                
+                // Reset preview as well
+                generateVoucher();
+            }
+            
+            // Function to print voucher
+            function printVoucher() {
+                const voucherContent = document.getElementById('voucher-preview').innerHTML;
+                const originalContent = document.body.innerHTML;
+                
+                document.body.innerHTML = voucherContent;
+                window.print();
+                document.body.innerHTML = originalContent;
+                location.reload(); // Reload to restore functionality
+            }
+            
+            // Function to download as PDF (placeholder)
+            function downloadPDF() {
+                alert('PDF download functionality would be implemented with a library like jsPDF');
+                // In a real implementation, you would use jsPDF or similar library
+                // to generate and download the voucher as PDF
+            }
+            
+            // Add event listener to initial remove button
+            document.querySelector('.remove-employee').addEventListener('click', function() {
+                alert('At least one employee is required');
+            });
+            
+            // Initialize with default values
+            generateVoucher();
+        });
+    </script>
+</body>
+</html>
