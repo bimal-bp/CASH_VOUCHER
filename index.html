@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cash Voucher System</title>
+    <!-- Include jsPDF library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -498,11 +501,33 @@
                 location.reload(); // Reload to restore functionality
             }
             
-            // Function to download as PDF (placeholder)
+            // Function to download as PDF
             function downloadPDF() {
-                alert('PDF download functionality would be implemented with a library like jsPDF');
-                // In a real implementation, you would use jsPDF or similar library
-                // to generate and download the voucher as PDF
+                // Use html2canvas to capture the voucher as an image
+                html2canvas(document.getElementById('voucher-preview')).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    
+                    // Create PDF using jsPDF
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF('p', 'mm', 'a4');
+                    
+                    // Get dimensions
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = pdf.internal.pageSize.getHeight();
+                    
+                    // Calculate dimensions to fit the image in the PDF
+                    const imgWidth = canvas.width;
+                    const imgHeight = canvas.height;
+                    const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+                    const imgX = (pdfWidth - imgWidth * ratio) / 2;
+                    const imgY = 10;
+                    
+                    // Add image to PDF
+                    pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+                    
+                    // Save the PDF
+                    pdf.save('cash-voucher.pdf');
+                });
             }
             
             // Add event listener to initial remove button
